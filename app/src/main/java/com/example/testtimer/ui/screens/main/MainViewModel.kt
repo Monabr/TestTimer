@@ -33,14 +33,23 @@ class MainViewModel @Inject constructor(
     private var timerJob: Job? = null
 
 
+    /**
+     * Field to observe via compose to get current time in string format
+     */
     val currentTime = mutableStateOf("00:00:00")
 
+    /**
+     * Checks if timer is started
+     */
     fun checkTimer() = flow {
         prefsStore.getIsTimerStarted().collect {
             emit(it)
         }
     }
 
+    /**
+     * Start to collect the values
+     */
     fun getCurrentTime() {
         if (timerJob == null) {
             timerJob = viewModelScope.launch {
@@ -54,6 +63,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Stops the values and reset current value
+     */
     fun stopTheTimer() {
         timerJob?.cancel()
         timerJob = null
